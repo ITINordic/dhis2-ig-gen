@@ -21,7 +21,7 @@ Example properties file.
 
 Properties can also be supplied on command line as shown in the Running application section.
 
-The **gen.username** and **gen.password** have no defaults and must be specified or application will crash.
+> The **gen.username** and **gen.password** have no defaults and must be specified or application will crash.
 
 ## Running application
 A script gen.sh is provided to make running the app easier.
