@@ -24,10 +24,10 @@ Properties can also be supplied on command line as shown in the Running applicat
 > The **gen.username** and **gen.password** have no defaults and must be specified or application will crash.
 
 ## Running application
-A script gen.sh is provided to make running the app easier.
+A script gen.sh is provided to make running the application easier.
 The indiviual step can still be excuted on their own.
 Example of using gen.sh.
-`./gen.sh --gen.url#https://play.dhis2.org/2.37.6`
+`./gen.sh --gen.url=https://play.dhis2.org/2.37.6`
 
 ## Note
 View generated ig by opening output/index.html
