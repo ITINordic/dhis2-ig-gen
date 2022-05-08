@@ -9,8 +9,7 @@ Use `sushi --init` to create a base project.
 Use `spring initializr` site to create a spring boot application with spring web for restTemplate support.
 The spring boot application resides within the generate folder of the base project.
 
-For now the applcation is used purely in commandline mode.
-Can be expanded to provide a rest api.
+For now the applcation is used purely in commandline mode, but can be expanded to provide a rest api.
 
 ## Using the app
 see [usage](USAGE.md)
