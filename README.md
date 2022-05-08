@@ -6,8 +6,8 @@ This project is to explore the posibility of producing a fhir implementation gui
 
 Use `sushi --init` to create a base project.
 
-Use `spring initializr` site to create a spring boot application spring web for restTemplate support.
-The generate java app resides within the generate folder of the base project. 
+Use `spring initializr` site to create a spring boot application with spring web for restTemplate support.
+The spring boot application resides within the generate folder of the base project. 
 For now the applcation is used purely in commandline mode.
 Can be expanded to provide a rest api.
 
