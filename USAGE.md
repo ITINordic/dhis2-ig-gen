@@ -20,6 +20,7 @@ Example properties file.
     gen.out=input/fsh/dhis-valueset.fsh
 
 Properties can also be supplied on command line as shown in the Running application section.
+
 The **gen.username** and **gen.password** have no defaults and must be specified or application will crash.
 
 ## Running application
