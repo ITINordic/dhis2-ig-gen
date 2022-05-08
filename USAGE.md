@@ -13,10 +13,10 @@ Install sushi globally using npm
 ## Configurations
 Create a file /etc/dhis-ig-gen/config.properties or ${user.home}/.dhis-ig-gen/config.properties to modify configured properties.
 Example properties file.
-`gen.username#name
-gen.password#password
-gen.url#https://play.dhis2.org/2.37.6
-gen.out#input/fsh/dhis-valueset.fsh`
+  gen.username#name
+  gen.password#password
+  gen.url#https://play.dhis2.org/2.37.6
+  gen.out#input/fsh/dhis-valueset.fsh
 
 Properties can also be supplied on command line as shown in the Running application section.
 The **gen.username** and **gen.password** have no defaults and must be specified or application will crash.
