@@ -30,4 +30,4 @@ Example of using gen.sh.
 `./gen.sh --gen.url=https://play.dhis2.org/2.37.6`
 
 ## Note
-View generated ig by opening output/index.html
+The generated implementation guide can be viewed by opening output/index.html
