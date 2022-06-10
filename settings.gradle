@@ -1,0 +1,2 @@
+rootProject.name = 'dhis-ig-gen'
+include ':generate'
