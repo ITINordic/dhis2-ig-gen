@@ -55,8 +55,6 @@ public class GenerateApplication {
 
 			System.out.println(fileName);
 			System.out.println(url);
-			System.out.println(username);
-			System.out.println(password);
 			HttpEntity<String> request = createHttpEntity(username, password);
 
 			ResponseEntity<OptionSets> optionSets = restTemplate.exchange(
