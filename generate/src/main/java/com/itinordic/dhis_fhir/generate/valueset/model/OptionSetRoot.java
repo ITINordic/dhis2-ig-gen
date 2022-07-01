@@ -8,6 +8,6 @@ import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class OptionSets {
+public class OptionSetRoot {
     List<OptionSet> optionSets;
 }

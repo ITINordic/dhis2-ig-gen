@@ -1,0 +1,9 @@
+{{#each optionSets~}}
+ValueSet: {{id}}
+Title: "{{name}}"
+Description: {{name}}
+{{~#each options}}
+* {{href}}#{{id}} {{name}}
+{{~/each}}
+
+{{/each}}
