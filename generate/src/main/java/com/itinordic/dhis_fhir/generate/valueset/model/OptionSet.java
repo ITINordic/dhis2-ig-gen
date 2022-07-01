@@ -1,4 +1,4 @@
-package com.itinordic.dhis_fhir.generate.model;
+package com.itinordic.dhis_fhir.generate.valueset.model;
 
 import java.util.List;
 

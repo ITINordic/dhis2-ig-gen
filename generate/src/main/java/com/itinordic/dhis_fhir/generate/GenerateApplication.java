@@ -7,16 +7,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-import com.itinordic.dhis_fhir.generate.model.Option;
-import com.itinordic.dhis_fhir.generate.model.OptionSet;
-import com.itinordic.dhis_fhir.generate.model.OptionSets;
+import com.itinordic.dhis_fhir.generate.valueset.gen.ValueSetGenerator;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -30,8 +27,6 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class GenerateApplication {
-
-	private static final Logger log = LoggerFactory.getLogger(GenerateApplication.class);
 
 	@Autowired
 	private ConfigurableApplicationContext context;
@@ -47,41 +42,19 @@ public class GenerateApplication {
 
 	@Bean
 	public CommandLineRunner run(RestTemplate restTemplate,
-	@Value("${gen.out}") String fileName,
+	@Value("${gen.out}") String outDir,
 	@Value("${gen.url}") String url,
 	@Value("${gen.username}") String username,
 	@Value("${gen.password}") String password) throws Exception {
 		return args -> {
 
-			System.out.println(fileName);
+			System.out.println(outDir);
 			System.out.println(url);
 			HttpEntity<String> request = createHttpEntity(username, password);
 
-			ResponseEntity<OptionSets> optionSets = restTemplate.exchange(
-					String.format("%s/api/optionSets?fields=:all,options[:all]", url),
-					HttpMethod.GET,
-					request, OptionSets.class);
-			try (FileWriter fileWriter = new FileWriter(fileName, false);
-					BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-					PrintWriter printWriter = new PrintWriter(bufferedWriter)) {
-				for (OptionSet optionSet : optionSets.getBody().getOptionSets()) {
-					printWriter.printf("ValueSet: %s\n", optionSet.getId());
-					printWriter.printf("Title: \"%s\"\n", optionSet.getName());
-					printWriter.printf("Description:  \"%s\"\n", optionSet.getName());
-					for (Option option : optionSet.getOptions()) {
-						printWriter.printf("* %s#%s \"%s\"\n", optionSet.getHref(), option.getId(),
-								option.getName());
-					}
-					printWriter.println("");
-				}
+			ValueSetGenerator valueSetGenerator = new ValueSetGenerator();
+			valueSetGenerator.generateValueSet(restTemplate, outDir, url, request);
 
-				printWriter.flush();
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
-			System.out.println("================");
-			log.info(optionSets.toString());
 			System.exit(SpringApplication.exit(context));
 		};
 	}
