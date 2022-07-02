@@ -1,0 +1,20 @@
+Alias: $PublicationStatus = http://hl7.org/fhir/publication-status
+Alias: $QuestionnaireItemType = http://hl7.org/fhir/item-type
+{{#each programs~}}
+// Program: {{name}}-{{id}}
+{{~#each programStages}}
+Instance: {{removeIllegal name }}-{{id}}
+InstanceOf: Questionnaire
+Title: "{{name}} Questionnaire"
+Usage: #definition
+* status = $PublicationStatus#active "Active"
+{{~#each programStageDataElements}}
+* item[+].linkId = "{{dataElement.id}}"
+* item[=].text = "{{dataElement.name}}"
+* item[=].type = $QuestionnaireItemType#{{convertQuestionnaireType dataElement.valueType}}
+
+{{~/each}}
+
+{{~/each}}
+
+{{/each}}

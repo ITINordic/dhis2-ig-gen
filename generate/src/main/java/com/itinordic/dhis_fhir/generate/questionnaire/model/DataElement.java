@@ -6,4 +6,5 @@ import lombok.Data;
 public class DataElement {
     String id;
     String name;
+    ValueType valueType;
 }
