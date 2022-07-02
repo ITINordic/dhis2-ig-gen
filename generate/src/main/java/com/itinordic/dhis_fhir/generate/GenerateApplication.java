@@ -3,15 +3,14 @@ package com.itinordic.dhis_fhir.generate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
+import com.github.jknack.handlebars.io.TemplateLoader;
+import com.itinordic.dhis_fhir.generate.helper.HandlerbarHelpers;
+import com.itinordic.dhis_fhir.generate.questionnaire.gen.QuestionnaireGenerator;
 import com.itinordic.dhis_fhir.generate.valueset.gen.ValueSetGenerator;
 
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -20,9 +19,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -52,8 +49,15 @@ public class GenerateApplication {
 			System.out.println(url);
 			HttpEntity<String> request = createHttpEntity(username, password);
 
-			ValueSetGenerator valueSetGenerator = new ValueSetGenerator();
-			valueSetGenerator.generateValueSet(restTemplate, outDir, url, request);
+			TemplateLoader loader = new ClassPathTemplateLoader();
+			loader.setPrefix("/templates");
+			Handlebars handlebars = new Handlebars(loader);
+			handlebars.registerHelpers(HandlerbarHelpers.class);
+
+			ValueSetGenerator valueSetGenerator = new ValueSetGenerator(restTemplate, handlebars, outDir, url);
+			valueSetGenerator.generate(request);
+			QuestionnaireGenerator questionnaireGenerator = new QuestionnaireGenerator(restTemplate, handlebars, outDir, url);
+			questionnaireGenerator.generate(request);
 
 			System.exit(SpringApplication.exit(context));
 		};
@@ -64,7 +68,6 @@ public class GenerateApplication {
 		byte[] plainCredsBytes = plainCreds.getBytes();
 		byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
 		String base64Creds = new String(base64CredsBytes);
-
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.add("Authorization", "Basic " + base64Creds);
