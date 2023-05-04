@@ -1,4 +1,4 @@
-package com.itinordic.dhis_fhir.generate.questionnaire.model;
+package com.itinordic.dhis_fhir.generate.program_stage.model;
 
 import java.util.List;
 

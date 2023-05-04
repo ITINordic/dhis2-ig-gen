@@ -1,5 +1,6 @@
 package com.itinordic.dhis_fhir.generate;
 
+import com.itinordic.dhis_fhir.generate.dataset.gen.DatasetQuestionnaireGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +8,7 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.itinordic.dhis_fhir.generate.helper.HandlerbarHelpers;
-import com.itinordic.dhis_fhir.generate.questionnaire.gen.QuestionnaireGenerator;
+import com.itinordic.dhis_fhir.generate.program_stage.gen.ProgramQuestionnaireGenerator;
 import com.itinordic.dhis_fhir.generate.valueset.gen.ValueSetGenerator;
 
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -56,9 +57,10 @@ public class GenerateApplication {
 
 			ValueSetGenerator valueSetGenerator = new ValueSetGenerator(restTemplate, handlebars, outDir, url);
 			valueSetGenerator.generate(request);
-			QuestionnaireGenerator questionnaireGenerator = new QuestionnaireGenerator(restTemplate, handlebars, outDir, url);
-			questionnaireGenerator.generate(request);
-
+			ProgramQuestionnaireGenerator programQuestionnaireGenerator = new ProgramQuestionnaireGenerator(restTemplate, handlebars, outDir, url);
+			programQuestionnaireGenerator.generate(request);
+			DatasetQuestionnaireGenerator datasetQuestionnaireGenerator = new DatasetQuestionnaireGenerator(restTemplate, handlebars, outDir, url);
+			datasetQuestionnaireGenerator.generate(request);
 			System.exit(SpringApplication.exit(context));
 		};
 	}

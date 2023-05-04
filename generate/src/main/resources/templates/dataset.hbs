@@ -1,0 +1,23 @@
+Alias: $PublicationStatus = http://hl7.org/fhir/publication-status
+Alias: $QuestionnaireItemType = http://hl7.org/fhir/item-type
+{{#each dataSets~}}
+// DataSets: {{name}}-{{id}}
+Instance: {{removeIllegal name }}-{{id}}
+InstanceOf: Questionnaire
+Title: "{{trimWhitespace name}} Questionnaire"
+Description: "{{trimWhitespace name}}"
+Usage: #definition
+* status = $PublicationStatus#active "Active"
+{{~#each dataSetElements}}
+{{#with dataElement}}
+* item[+].linkId = "{{id}}"
+* item[=].text = "{{trimWhitespace name}}"
+* item[=].type = $QuestionnaireItemType#group
+{{~#each categoryCombo.categoryOptionCombos}}
+* item[=].item[+].linkId = "{{../id}}{{id}}"
+* item[=].item[=].text = "{{trimWhitespace name}}"
+* item[=].item[=].type = $QuestionnaireItemType#{{convertQuestionnaireType ../valueType}}
+{{~/each}}
+{{~/with}}
+{{~/each}}
+{{/each}}

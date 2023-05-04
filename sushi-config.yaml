@@ -4,10 +4,10 @@
 # │  see: https://fshschool.org/docs/sushi/configuration/.                                         │
 # ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
 id: fhir.dhis2
-canonical: http://dhis2.org
-name: dhis2IG
-# title: Example Title
-# description: Example Implementation Guide for getting started with SUSHI
+canonical: http://localhost:8092
+name: Dhis2IG
+title: Dhis2IG
+description: Dhis2IG Implementation Guide
 status: draft # draft | active | retired | unknown
 version: 0.1.0
 fhirVersion: 4.0.1 # https://www.hl7.org/fhir/valueset-FHIR-version.html

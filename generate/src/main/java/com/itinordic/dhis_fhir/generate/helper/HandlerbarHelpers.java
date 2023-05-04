@@ -2,14 +2,13 @@ package com.itinordic.dhis_fhir.generate.helper;
 
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
-import com.itinordic.dhis_fhir.generate.questionnaire.model.ValueType;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public enum HandlerbarHelpers  implements Helper<Object> {
+public enum HandlerbarHelpers implements Helper<Object> {
     removeIllegal {
         @Override
         public Object apply(Object context, Options options) throws IOException {
@@ -20,6 +19,34 @@ public enum HandlerbarHelpers  implements Helper<Object> {
             return context;
         }
     },
+    trimWhitespace {
+        @Override
+        public Object apply(Object context, Options options) throws IOException {
+            if (context instanceof String) {
+                return ((String) context).trim();
+            } else if (context instanceof CharSequence){
+                CharSequence c = (CharSequence) context;
+                while(c.charAt(0) == ' '){
+                    c = c.subSequence(1, c.length());
+                }
+                while(c.charAt(c.length() - 1) == ' '){
+                    c = c.subSequence(0, c.length() - 1);
+                }
+                return c;
+            }
+            return context;
+        }
+    },
+    capitalize {
+        @Override
+        public Object apply(Object context, Options options) throws IOException {
+            if (context instanceof String) {
+                return ((String) context).toUpperCase();
+            }
+            return context;
+        }
+    },
+
     convertQuestionnaireType {
         @Override
         public Object apply(Object context, Options options) throws IOException {
@@ -73,7 +100,6 @@ public enum HandlerbarHelpers  implements Helper<Object> {
         }
     };
     private static Pattern pattern = Pattern.compile("[^A-Za-z0-9-]");
-
 }
 
 

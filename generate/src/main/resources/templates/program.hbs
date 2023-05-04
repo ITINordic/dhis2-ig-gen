@@ -5,16 +5,16 @@ Alias: $QuestionnaireItemType = http://hl7.org/fhir/item-type
 {{~#each programStages}}
 Instance: {{removeIllegal name }}-{{id}}
 InstanceOf: Questionnaire
-Title: "{{name}} Questionnaire"
+Title: "{{trimWhitespace name}} Questionnaire"
+Description: "{{trimWhitespace name}}"
 Usage: #definition
 * status = $PublicationStatus#active "Active"
 {{~#each programStageDataElements}}
-* item[+].linkId = "{{dataElement.id}}"
-* item[=].text = "{{dataElement.name}}"
+* item[+].linkId = "{{../id}}{{dataElement.id}}"
+* item[=].text = "{{trimWhitespace dataElement.name}}"
 * item[=].type = $QuestionnaireItemType#{{convertQuestionnaireType dataElement.valueType}}
 
 {{~/each}}
-
 {{~/each}}
 
 {{/each}}

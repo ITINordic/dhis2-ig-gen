@@ -1,9 +1,26 @@
+// Code System
+
+CodeSystem: Dhis2CS
+Id: dhis2-code-system
+Title: "DHIS2 Code System"
+Description: "DHIS2 Code System"
+* ^experimental = true
+* ^caseSensitive = true
 {{#each optionSets~}}
-ValueSet: {{id}}
+{{~#each options}}
+* #CD{{id}} "{{name}}" "{{name}}"
+{{~/each}}
+
+{{/each}}
+
+// Value Sets
+{{#each optionSets~}}
+ValueSet: VS{{id}}
 Title: "{{name}}"
 Description: "{{name}}"
+* ^experimental = true
 {{~#each options}}
-* {{href}}#{{id}} "{{name}}"
+* Dhis2CS#CD{{id}} "{{name}}"
 {{~/each}}
 
 {{/each}}

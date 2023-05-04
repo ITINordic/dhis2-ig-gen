@@ -1,4 +1,4 @@
-package com.itinordic.dhis_fhir.generate.questionnaire.model;
+package com.itinordic.dhis_fhir.generate.helper;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

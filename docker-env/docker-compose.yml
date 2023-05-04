@@ -1,0 +1,46 @@
+version: '3'
+services:
+  db:
+    image: nickblah/postgis:10.23-bullseye-postgis-3
+    command: postgres -c max_locks_per_transaction=100
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_MULTIPLE_DATABASES: dhis2 hapi
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./config/psql-init.d:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'test -f /var/lib/postgresql/data/.init-done.lock && pg_isready -U admin -d dhis2'" ]
+      start_period: 5m
+      interval: 5s
+      timeout: 3s
+      retries: 5
+  dhis:
+    image: dhis2/core:2.39.1.1
+    volumes:
+      - ./config/dhis2_home/dhis.conf:/opt/dhis2/dhis.conf
+    environment:
+      - WAIT_FOR_DB_CONTAINER=db:5432 -t 0
+    ports:
+      - "8090:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+  fhir:
+    image: "hapiproject/hapi:latest"
+    ports:
+      - "8091:8080"
+    volumes:
+      - ./config/hapi.application.yaml:/app/config/application.yaml
+    depends_on:
+      db:
+        condition: service_healthy
+      web:
+        condition: service_started
+  web:
+    image: nginx
+    ports:
+      - "8092:80"
+    volumes:
+      - ../output:/usr/share/nginx/html
+    
